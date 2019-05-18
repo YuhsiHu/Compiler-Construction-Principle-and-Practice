@@ -1,0 +1,43 @@
+read filetest2.txt
+keyword -> thread
+identifier -> Thread1
+error type : unknown symbol
+#########ERROR APPEARED IN 1#########
+keyword -> features
+error type : unknown symbol
+#########ERROR APPEARED IN 3#########
+keyword -> flows
+error type : dot isn't contained in number 
+#########ERROR APPEARED IN 5#########
+keyword -> properties
+identifier -> dispatch_protocol
+assign -> =>
+keyword -> access
+Digit -> 50.0
+assign -> ;
+keyword -> end
+identifier -> Thread1
+assign -> ;
+identifier -> Thread
+identifier -> Thread2
+keyword -> features
+error type : unknown symbol
+#########ERROR APPEARED IN 12#########
+keyword -> flows
+identifier -> flow1
+assign -> :
+keyword -> flow
+keyword -> path
+identifier -> signal
+assign -> ->
+identifier -> result1
+assign -> ;
+keyword -> properties
+identifier -> dispatch_protocol
+assign -> =>
+keyword -> access
+error type : unknown symbol
+#########ERROR APPEARED IN 16#########
+keyword -> end
+identifier -> Thread2
+assign -> ;

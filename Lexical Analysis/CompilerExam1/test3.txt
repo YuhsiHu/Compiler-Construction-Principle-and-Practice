@@ -1,0 +1,70 @@
+thread Thread1#
+features
+	_APPosition_Input : in event data port Nav_Types::Position_GPS;
+flows
+        1flow1: flow path signal -> result1;
+properties
+	dispatch_protocol => access 50.0;
+end Thread1;
+
+thread Thread2
+features
+	AP_Position_Input : in event data port Nav_Types::Position_GPS;
+flows
+        flow1: flow path signal -> result1;
+properties
+	dispatch_protocol => access 50.0;
+Thread2;
+
+thread Thread3
+features
+	AP_Position_Input : in event data port Nav_Types:Position_GPS;
+flows
+        flow1: flow path signal +> result1;
+properties
+	dispatch_protocol => access 50.0;
+end Thread3;
+
+thread Thread4
+features 
+	in event data port Nav_Types::Position_GPS;
+flows
+        flow1: flow path signal -> result1;
+properties
+	dispatch_protocol => access .01;
+end Thread4;
+
+thread Thread5
+features
+	AP_Position_Input : in event data port Nav_Types::Position_GPS;
+flows
+        flow1: flow path signal -> result1
+properties
+	dispatch_protocol => access 50.0;
+end Thread5;
+
+thread Thread6
+features
+	AP_Position_Input : in event data port Nav_Types::Position_GPS;
+        flow1: flow path signal -> result1;
+properties11
+	dispatch_protocol => access 50.0;
+end Thread6;
+
+thread Thread7
+features
+	event : in event data port Nav_Types::Position_GPS;
+flows
+        flow1: flow path signal -> result1;
+properties
+	dispatch_protocol => access 50.0;
+end Thread7;
+
+thread thread
+features
+	AP_Position_Input : in event data port Nav_Types::Position_GPS;
+flows
+        flow1: flow path signal -> result1;
+properties
+	dispatch_protocol => access 50.0;
+end thread;
