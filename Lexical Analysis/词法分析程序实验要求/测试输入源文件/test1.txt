@@ -1,0 +1,53 @@
+thread Thread1
+features
+	AP_Position_Input : in event data port Nav_Types::Position_GPS;
+flows
+        flow1: flow path signal -> result1;
+properties
+	dispatch_protocol => access 50.0;
+end Thread1;
+
+thread Thread_2
+features
+	AP_Position_Input : in data port Nav_Types1::Nav_Types2::Position_GPS;
+flows
+        flow1: flow source signal {result1::result2 +=> constant access 50.0};
+properties
+	none;
+end Thread_2;
+
+thread Thread3d
+features
+	AP_Position_Input : out data port Nav_Types1::Nav_Types2::Position_GPS {result1::result2 +=> constant access 50.0};
+flows
+        flow1: flow sink signal {result1::result2 +=> constant access 50.0};
+properties
+	size => constant access +50.0;
+end Thread3d;
+
+thread Thread4
+features
+	AP_Position_Input : in out parameter Nav_Types1::Nav_Types2::Position_GPS {result1::result2 => constant access 50.0};
+flows
+        flow1: flow sink signal {result1::result2 +=> constant access 50.0};
+properties
+	size => constant access -50.0;
+end Thread4;
+
+thread Thread5
+features
+	AP_Position_Input : in out event port;
+flows
+        flow1: flow sink signal {result1::result2 +=> constant access 50.0};
+properties
+	size => constant access 50.0;
+end Thread5;
+
+thread Thread6
+features
+	none;
+flows
+        none;
+properties
+	none;
+end Thread6;

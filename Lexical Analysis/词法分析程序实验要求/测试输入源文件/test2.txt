@@ -1,0 +1,17 @@
+thread Thread1#
+features
+	_APPosition_Input : in event data port Nav_Types::Position_GPS;
+flows
+        1flow1: flow path signal -> result1;
+properties
+	dispatch_protocol => access 50.0;
+end Thread1;
+
+Thread Thread2
+features
+	_APPosition_Input : in event data port Nav_Types::Position_GPS;
+flows
+        flow1: flow path signal -> result1;
+properties
+	dispatch_protocol => access .01;
+end Thread2;
