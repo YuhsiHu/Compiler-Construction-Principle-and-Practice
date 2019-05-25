@@ -1,4 +1,4 @@
-read filetest1.txt
+read filetest4.txt
 thread -> thread
 identifier -> Thread1
 features -> features
@@ -28,7 +28,7 @@ access -> access
 Digit -> 50.0
 assign -> ;
 end -> end
-identifier -> Thread1
+identifier -> Thread1aaa
 assign -> ;
 thread -> thread
 identifier -> Thread_2

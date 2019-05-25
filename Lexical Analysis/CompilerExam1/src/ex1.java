@@ -349,7 +349,7 @@ public class ex1 {
 									for (String s : keyword) {
 										if (s.equals(word)) {
 											isKeyWord = true;
-											writer.write("keyword -> " + String.valueOf(buffer) + "\r\n");
+											writer.write(s+" -> " + String.valueOf(buffer) + "\r\n");
 											break;
 										}
 									}
@@ -369,7 +369,7 @@ public class ex1 {
 								for (String s : keyword) {
 									if (s.equals(word)) {
 										isKeyWord = true;
-										writer.write("keyword -> " + String.valueOf(buffer) + "\r\n");
+										writer.write(s+" -> " + String.valueOf(buffer) + "\r\n");
 										break;
 									}
 								}

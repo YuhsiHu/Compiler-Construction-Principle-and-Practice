@@ -1,4 +1,4 @@
-read filetest1.txt
+read filetest5.txt
 thread -> thread
 identifier -> Thread1
 features -> features
@@ -55,9 +55,6 @@ identifier -> result1
 assign -> ::
 identifier -> result2
 assign -> =>
-constant -> constant
-access -> access
-Digit -> 50.0
 assign -> }
 assign -> ;
 properties -> properties
