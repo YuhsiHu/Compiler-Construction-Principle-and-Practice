@@ -1,0 +1,3 @@
+ERROR APPEARED IN LINE 57 : Association STATEMENT INCOMPLETE : access LOST
+---NodeType : Association
+	identifierName : result1::result2

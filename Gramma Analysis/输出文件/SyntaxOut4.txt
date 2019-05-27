@@ -1,0 +1,14 @@
+ERROR APPEARED IN LINE 30 : ThreadSpec STATEMENT INCOMPLETE
+---NodeType : ThreadSpec
+	---NodeType : portType
+		identifier : AP_Position_Input
+		IOtype : in
+		---NodeType : PortType
+			PortTypeKind : event data port
+			---NodeType : reference
+				identifierPath : Nav_Types::Position_GPS
+	---NodeType : FlowSpec
+		FlowSpecKind : flow1 : flow path signal -> result1
+	---NodeType : Association
+		identifierName : dispatch_protocol
+		decimal : 50.0
