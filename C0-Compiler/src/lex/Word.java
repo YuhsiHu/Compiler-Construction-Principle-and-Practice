@@ -70,9 +70,9 @@ public class Word {
 	}
 	
 	int id;// 单词序号
-	String value;// 单词的值
-	String type;// 单词类型
-	int line;// 单词所在行
+	private String value;// 单词的值
+	private String type;// 单词类型
+	public int line;// 单词所在行
 	boolean flag = true;//单词是否合法
 
 	/**
@@ -91,8 +91,8 @@ public class Word {
 	 */
 	public Word(int id, String value, String type, int line) {
 		this.id = id;
-		this.value = value;
-		this.type = type;
+		this.setValue(value);
+		this.setType(type);
 		this.line = line;
 	}
 
@@ -145,5 +145,42 @@ public class Word {
 			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * getValue
+	 * @return
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/*
+	 * setValue
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	/*
+	 * getType
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * setType
+	 * @param type
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	/*
+	 * getLine
+	 */
+	public int getLine() {
+		return line;
 	}
 }

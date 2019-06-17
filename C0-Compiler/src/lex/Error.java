@@ -1,10 +1,15 @@
 package lex;
 
+/**
+ * 语法分析报错信息类
+ * @author Hu Yuxi
+ *
+ */
 public class Error {
-	int id;// 错误序号；
-	String info;// 错误信息；
-	int line;// 错误所在行
-	Word word;// 错误的单词
+	private int id;// 错误序号；
+	private String info;// 错误信息；
+	private int line;// 错误所在行
+	private Word word;// 错误的单词
 
 	/**
 	 * 无参构造函数
@@ -22,17 +27,49 @@ public class Error {
 	 * @param word
 	 */
 	public Error(int id, String info, int line, Word word) {
-		this.id = id;
-		this.info = info;
-		this.line = line;
-		this.word = word;
+		this.setId(id);
+		this.setInfo(info);
+		this.setLine(line);
+		this.setWord(word);
 	}
 
 	/**
 	 * toString
 	 */
 	public String toString() {
-		String str = id + "\t" + info + "\t\t" + line + "\t" + word.value;
+		String str = getId() + "\t" + getInfo() + "\t\t" + getLine() + "\t" + getWord().getValue();
 		return str;
+	}
+
+	public int getLine() {
+		return line;
+	}
+
+	public void setLine(int line) {
+		this.line = line;
+	}
+
+	public Word getWord() {
+		return word;
+	}
+
+	public void setWord(Word word) {
+		this.word = word;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 }

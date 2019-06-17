@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class LexAnalyse {
 
-	ArrayList<Word> wordList = new ArrayList<Word>();//单词列表
+	public ArrayList<Word> wordList = new ArrayList<Word>();//单词列表
 	ArrayList<Error> errorList = new ArrayList<Error>();//错误列表
 	int wordCount = 0;//单词总数
 	int errorCount = 0;//错误总数
@@ -47,9 +47,11 @@ public class LexAnalyse {
 	 * @throws IOException
 	 */
 	public void lexBegin(String sourceCode) throws IOException {
-		LexAnalyse lex = new LexAnalyse();
-		lex.lexAnalyse1(sourceCode);
-		lex.outputWordList();
+		//LexAnalyse lex = new LexAnalyse();
+		///lex.lexAnalyse1(sourceCode);
+		//lex.outputWordList();
+		lexAnalyse1(sourceCode);
+		outputWordList();
 	}
 	
 	/**
@@ -205,15 +207,15 @@ public class LexAnalyse {
 					wordCount++;
 					word.id = wordCount;
 					word.line = line;
-					word.value = str.substring(beginIndex, endIndex);
+					word.setValue(str.substring(beginIndex, endIndex));
 					//判断word类型
-					if (Word.isKey(word.value)) {
-						word.type = Word.KEY;
-					} else if (isID(word.value)) {
-						word.type = Word.IDENTIFIER;
+					if (Word.isKey(word.getValue())) {
+						word.setType(Word.KEY);
+					} else if (isID(word.getValue())) {
+						word.setType(Word.IDENTIFIER);
 					} else {
 						//未知单词
-						word.type = Word.UNIDEF;
+						word.setType(Word.UNIDEF);
 						word.flag = false;
 						errorCount++;
 						error = new Error(errorCount, "errinfo", word.line, word);
@@ -246,12 +248,12 @@ public class LexAnalyse {
 					wordCount++;
 					word.id = wordCount;
 					word.line = line;
-					word.value = str.substring(beginIndex, endIndex);
+					word.setValue(str.substring(beginIndex, endIndex));
 					//判断单词类型
-					if (isInteger(word.value)) {
-						word.type = Word.INT_CONST;
+					if (isInteger(word.getValue())) {
+						word.setType(Word.INT_CONST);
 					} else {
-						word.type = Word.UNIDEF;
+						word.setType(Word.UNIDEF);
 						word.flag = false;
 						errorCount++;
 						error = new Error(errorCount, "errorinfo", word.line, word);
@@ -276,8 +278,8 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(beginIndex, endIndex);
-						word.type = Word.CHAR_CONST;
+						word.setValue(str.substring(beginIndex, endIndex));
+						word.setType(Word.CHAR_CONST);
 						// flag=true;
 						// word.flag=flag;
 						index--;
@@ -287,8 +289,8 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(beginIndex, endIndex);
-						word.type = Word.UNIDEF;
+						word.setValue(str.substring(beginIndex, endIndex));
+						word.setType(Word.UNIDEF);
 						word.flag = false;
 						errorCount++;
 						error = new Error(errorCount, "erroinfo", word.line, word);
@@ -306,16 +308,16 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(beginIndex, endIndex);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(beginIndex, endIndex));
+						word.setType(Word.OPERATOR);
 					} else {
 						// endIndex=index;
 						word = new Word();
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(index - 1, index);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(index - 1, index));
+						word.setType(Word.OPERATOR);
 						index--;
 					}
 				} else if (temp == '!') {
@@ -330,8 +332,8 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(beginIndex, endIndex);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(beginIndex, endIndex));
+						word.setType(Word.OPERATOR);
 						index++;
 					} else {
 						// endIndex=index;
@@ -339,8 +341,8 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(index - 1, index);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(index - 1, index));
+						word.setType(Word.OPERATOR);
 						index--;
 					}
 				} else if (temp == '&') {
@@ -352,16 +354,16 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(beginIndex, endIndex);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(beginIndex, endIndex));
+						word.setType(Word.OPERATOR);
 					} else {
 						// endIndex=index;
 						word = new Word();
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(index - 1, index);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(index - 1, index));
+						word.setType(Word.OPERATOR);
 						index--;
 					}
 				} else if (temp == '|') {
@@ -373,16 +375,16 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(beginIndex, endIndex);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(beginIndex, endIndex));
+						word.setType(Word.OPERATOR);
 					} else {
 						// endIndex=index;
 						word = new Word();
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(index - 1, index);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(index - 1, index));
+						word.setType(Word.OPERATOR);
 						index--;
 					}
 				} else if (temp == '+') {
@@ -394,8 +396,8 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(beginIndex, endIndex);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(beginIndex, endIndex));
+						word.setType(Word.OPERATOR);
 
 					} else {
 						// endIndex=index;
@@ -403,8 +405,8 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(index - 1, index);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(index - 1, index));
+						word.setType(Word.OPERATOR);
 						index--;
 					}
 				} else if (temp == '-') {
@@ -416,16 +418,16 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(beginIndex, endIndex);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(beginIndex, endIndex));
+						word.setType(Word.OPERATOR);
 					} else {
 						// endIndex=index;
 						word = new Word();
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(index - 1, index);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(index - 1, index));
+						word.setType(Word.OPERATOR);
 						index--;
 					}
 				} else if (temp == '/') {
@@ -442,8 +444,8 @@ public class LexAnalyse {
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = str.substring(index - 1, index);
-						word.type = Word.OPERATOR;
+						word.setValue(str.substring(index - 1, index));
+						word.setType(Word.OPERATOR);
 					}
 					index--;
 				} else {
@@ -476,21 +478,21 @@ public class LexAnalyse {
 						word = new Word();
 						word.id = ++wordCount;
 						word.line = line;
-						word.value = String.valueOf(temp);
-						if (Word.isOperator(word.value))
-							word.type = Word.OPERATOR;
-						else if (Word.isBoundarySign(word.value))
-							word.type = Word.BOUNDARYSIGN;
+						word.setValue(String.valueOf(temp));
+						if (Word.isOperator(word.getValue()))
+							word.setType(Word.OPERATOR);
+						else if (Word.isBoundarySign(word.getValue()))
+							word.setType(Word.BOUNDARYSIGN);
 						else
-							word.type = Word.END;
+							word.setType(Word.END);
 						break;
 					default:
 						word = new Word();
 						wordCount++;
 						word.id = wordCount;
 						word.line = line;
-						word.value = String.valueOf(temp);
-						word.type = Word.UNIDEF;
+						word.setValue(String.valueOf(temp));
+						word.setType(Word.UNIDEF);
 						word.flag = false;
 						errorCount++;
 						error = new Error(errorCount, "Unknown Type", word.line, word);
@@ -532,7 +534,7 @@ public class LexAnalyse {
 			line++;
 		}
 		
-		if (!wordList.get(wordList.size() - 1).type.equals(Word.END)) {
+		if (!wordList.get(wordList.size() - 1).getType().equals(Word.END)) {
 			Word word = new Word(++wordCount, "#", Word.END, line++);
 			wordList.add(word);
 		}
@@ -558,7 +560,7 @@ public class LexAnalyse {
 			line++;
 		}
 		inbr.close();
-		if (!wordList.get(wordList.size() - 1).type.equals(Word.END)) {
+		if (!wordList.get(wordList.size() - 1).getType().equals(Word.END)) {
 			Word word = new Word(++wordCount, "#", Word.END, line++);
 			wordList.add(word);
 		}
@@ -589,7 +591,7 @@ public class LexAnalyse {
 		Word word;
 		for (int i = 0; i < wordList.size(); i++) {
 			word = wordList.get(i);
-			pw1.println(word.id + "\t" + word.value + "\t\t" + word.type + "\t\t" + word.line + "\t" + word.flag);
+			pw1.println(word.id + "\t" + word.getValue() + "\t\t" + word.getType() + "\t\t" + word.line + "\t" + word.flag);
 		}
 		//是否有error
 		if (lexErrorFlag) {
@@ -598,8 +600,8 @@ public class LexAnalyse {
 			//打印error列表
 			for (int i = 0; i < errorList.size(); i++) {
 				error = errorList.get(i);
-				pw1.println(error.id + "\t" + error.info + "\t\t" + error.line
-						+ "\t" + error.word.value);
+				pw1.println(error.getId() + "\t" + error.getInfo() + "\t\t" + error.getLine()
+						+ "\t" + error.getWord().getValue());
 			}
 		} else {
 			pw1.println("Lexical Analyse succeed");
@@ -607,5 +609,14 @@ public class LexAnalyse {
 		pw1.close();
 		return path + "/wordList.txt";
 	}
+
+	/**
+	 * @return the wordList
+	 */
+	public ArrayList<Word> getWordList() {
+		return wordList;
+	}
+	
+	
 
 }

@@ -1,0 +1,56 @@
+1 MOV sum,0
+
+2 MOV a,5
+
+3 MOV b,4
+
+4 MOV i,1
+
+5 JL T1
+
+6 JZ 19
+
+7 ADD T2,sum
+
+8 MOV sum,T2
+
+9 MOV i,1
+
+10 JL T3
+
+11 JZ 17
+
+12 ADD T4,1
+
+13 MUL T5,T4
+
+14 MOV a,T5
+
+15 INC i
+
+16 JMP 10
+
+17 INC i
+
+18 JMP 5
+
+19 JG T6
+
+20 JZ 28
+
+21 MOV c,0
+
+22 JG T7
+
+23 JZ 26
+
+24 MOV c,0
+
+25 JMP 27
+
+26 MOV c,1
+
+27 JMP 29
+
+28 MOV c,1
+
