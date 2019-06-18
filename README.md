@@ -61,35 +61,35 @@ Exercises about Compiler Construction in NPU and a simplified C compiler.
 构造LL1属性翻译文法即在原有LL1文法基础上加上动作符号，并给非终结符和终结符加上一定属性，给动作符号加上语义子程序。  
   
 **1.赋值**   
-产生式|语义子程序
------|--------
-R->@ASS_R id =L@ EQ; |@ASS_R{R.VAL=id并压入语义栈}
-同上|@EQ{RES=R.VAL, OP=’=’, ARG1=L.VAL, new FourElement(OP,ARG1,/, RES)}
-U->@ASS_U idU’|@ASS_U{U.VAL=id并压入语义栈}
-U’ -> =L&#124;$@EQ_U’|@EQ_U'{RES=U.VAL, OP=’=’, ARG1=L.VAL, new FourElement(OP,ARG1,/, RES)}
+产生式 | 语义子程序
+----- | --------
+R->@ASS_R id =L@ EQ; | @ASS_R{R.VAL=id并压入语义栈}
+同上 | @EQ{RES=R.VAL, OP=’=’, ARG1=L.VAL, new FourElement(OP,ARG1,/, RES)}
+U->@ASS_U idU’ | @ASS_U{U.VAL=id并压入语义栈}
+U’ -> =L&#124;$@EQ_U’ | @EQ_U'{RES=U.VAL, OP=’=’, ARG1=L.VAL, new FourElement(OP,ARG1,/, RES)}
 
 **2.算术运算** 
-产生式|语义子程序
------|--------  
-L->TL’|@ADD_SUB {If(OP!=null) RES= NEWTEMP( ); L.VAL=RES,并压入语义栈;New FourElement(OP, T.VAL, L’.VAL, RES),}
-L’->+L|@ADD {OP=+, ARG2=L.VAL}   
-T->FT’|@DIV_MUL { if (OP !=null) RES= NEWTEMP( ); T.VAL=RES; new FourElement(OP,F.VAL,ARG2, RES) else ARG1=F.VAL; } 
-T’->/T|@DIV {OP=/, ARG2=T.VAL} 
-T’->*T|@MUL {OP=&#215;, ARG2=T.VAL} 
+产生式 | 语义子程序
+----- | --------  
+L->TL’ | @ADD_SUB {If(OP!=null) RES= NEWTEMP( ); L.VAL=RES,并压入语义栈;New FourElement(OP, T.VAL, L’.VAL, RES),}
+L’->+L | @ADD {OP=+, ARG2=L.VAL}   
+T->FT’ | @DIV_MUL { if (OP !=null) RES= NEWTEMP( ); T.VAL=RES; new FourElement(OP,F.VAL,ARG2, RES) else ARG1=F.VAL; } 
+T’->/T | @DIV {OP=/, ARG2=T.VAL} 
+T’->*T | @MUL {OP=&#215;, ARG2=T.VAL} 
 O-> @SINGLE_OP ++&#124;--&#124;$|@SINGLE_OP{OP=++&#124;–-}
 
 **3.布尔运算** 
-产生式|语义子程序
------|--------  
-G->FDF|@COMPARE{OP=D.VAL; ARG1=F(1).VAL; ARG2=F(2).VAL, RES=NEWTEMP( ); new FourElement(OP,F.VAL,ARG2,RES); G.VAL=RES并压入语义栈}
-D-><&#124;>&#124;==&#124;!=|@COMPARE_OP<&#124;>&#124;==&#124;!={D.VAL=<&#124;>&#124;==&#124;!=并压入语义栈} 
+产生式 | 语义子程序
+----- | --------  
+G->FDF | @COMPARE{OP=D.VAL; ARG1=F(1).VAL; ARG2=F(2).VAL, RES=NEWTEMP( ); new FourElement(OP,F.VAL,ARG2,RES); G.VAL=RES并压入语义栈}
+D-><&#124;>&#124;==&#124;!= | @COMPARE_OP<&#124;>&#124;==&#124;!={D.VAL=<&#124;>&#124;==&#124;!=并压入语义栈} 
 
 **4.控制语句**  
-产生式|语义子程序
------|--------  
+产生式 | 语义子程序
+----- | --------  
 B->if (G)@IF_FJ{A}@IF_BACKPATCH_FJ @IF_RJ else{A}@IF_BACKPATCH_RJ | @IF_FJ{OP=”FJ”;ARG1=G.VAL;RES=if_fj, New FourElement(OP,ARG1,/, RES ),将其插入到四元式列表中第i个} @IF_BACKPATCH_FJ{回填前面假出口跳转四元式的跳转序号, BACKPATCH (i,if_fj)} 
-B->while(G)@WHILE_FJ{A}@WHILE_RJ@WHILE_BACKPATCH_FJ | {参照if-else}
-B->for(YZ;G@FOR_FJ;Q){A@SINGLE}@FOR_RJ@FOR_BACKPATCH_FJ | {参照if-else} @SINGLE {ARG1=id;RES=NEWTEMP( );New FourElement(OP,ARG1,/,RES)}
+B->while(G)@WHILE_FJ{A}@WHILE_RJ@WHILE_BACKPATCH_FJ |  {参照if-else}  
+B->for(YZ;G@FOR_FJ;Q){A@SINGLE}@FOR_RJ@FOR_BACKPATCH_FJ  | {参照if-else} @SINGLE {ARG1=id;RES=NEWTEMP( );New FourElement(OP,ARG1,/,RES)}  
 
 > **说明：**  
 （1）R.VAL表示符号R的值，VAL是R的一个属性，其它的类似。 
