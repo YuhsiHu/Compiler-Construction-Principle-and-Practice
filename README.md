@@ -61,16 +61,16 @@ Exercises about Compiler Construction in NPU and a simplified C compiler.
 构造LL1属性翻译文法即在原有LL1文法基础上加上动作符号，并给非终结符和终结符加上一定属性，给动作符号加上语义子程序。  
   
 **1.赋值**   
-产生式 | 语义子程序
------ | --------
-R->@ASS_R id =L@ EQ; | @ASS_R{R.VAL=id并压入语义栈}
-同上 | @EQ{RES=R.VAL, OP=’=’, ARG1=L.VAL, new FourElement(OP,ARG1,/, RES)}
-U->@ASS_U idU’ | @ASS_U{U.VAL=id并压入语义栈}
-U’ -> =L&#124;$@EQ_U’ | @EQ_U'{RES=U.VAL, OP=’=’, ARG1=L.VAL, new FourElement(OP,ARG1,/, RES)}
+| 产生式 | 语义子程序 |
+| ----- | -------- |  
+| R->@ASS_R id =L@ EQ; | @ASS_R{R.VAL=id并压入语义栈}
+同上 | @EQ{RES=R.VAL, OP=’=’, ARG1=L.VAL, new FourElement(OP,ARG1,/, RES)} |  
+| U->@ASS_U idU’ | @ASS_U{U.VAL=id并压入语义栈}
+U’ -> =L&#124;$@EQ_U’ | @EQ_U'{RES=U.VAL, OP=’=’, ARG1=L.VAL, new FourElement(OP,ARG1,/, RES)}  |  
 
 **2.算术运算** 
 产生式 | 语义子程序
------ | --------  
+| - | - |  
 L->TL’ | @ADD_SUB {If(OP!=null) RES= NEWTEMP( ); L.VAL=RES,并压入语义栈;New FourElement(OP, T.VAL, L’.VAL, RES),}
 L’->+L | @ADD {OP=+, ARG2=L.VAL}   
 T->FT’ | @DIV_MUL { if (OP !=null) RES= NEWTEMP( ); T.VAL=RES; new FourElement(OP,F.VAL,ARG2, RES) else ARG1=F.VAL; } 
