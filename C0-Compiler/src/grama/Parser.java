@@ -34,7 +34,7 @@ public class Parser {
 	boolean graErrorFlag = false;// 语法分析出错标志
 	int tempCount = 0;// 用于生成临时变量
 	int fourElemCount = 0;// 统计四元式个数
-	
+
 	AnalyzeNode S, B, A, C, X, Y, R, Z, Z1, U, U1, E, E1, H, H1, G, M, D, L, L1, T, T1, F, O, P, Q;
 	AnalyzeNode ADD_SUB, DIV_MUL, ADD, SUB, DIV, MUL, ASS_F, ASS_R, ASS_Q, ASS_U, TRAN_LF;
 	AnalyzeNode SINGLE, SINGLE_OP, EQ, EQ_U1, COMPARE, COMPARE_OP, IF_FJ, IF_RJ, IF_BACKPATCH_FJ, IF_BACKPATCH_RJ;
@@ -57,6 +57,7 @@ public class Parser {
 
 	/**
 	 * 有参构造函数
+	 * 
 	 * @param lexAnalyse
 	 */
 	public Parser(LexAnalyse lexAnalyse) {
@@ -145,15 +146,16 @@ public class Parser {
 	public void grammerAnalyse() {
 		if (lexAnalyse.isFail())
 			javax.swing.JOptionPane.showMessageDialog(null, "词法分析未通过，不能进行语法分析");
+		// 开始语法分析
 		bf = new StringBuffer();
 		int gcount = 0;
 		error = null;
+		// S入栈
 		analyseStack.add(0, S);
 		analyseStack.add(1, new AnalyzeNode(AnalyzeNode.END, "#", null));
 		semanticStack.add("#");
 		while (!analyseStack.empty() && !wordList.isEmpty()) {
-			// System.out.println(fourElemCount);
-			bf.append('\n');
+			bf.append("\r\n");
 			bf.append("步骤" + gcount + "\t");
 			if (gcount++ > 10000) {
 				graErrorFlag = true;
@@ -163,7 +165,7 @@ public class Parser {
 			firstWord = wordList.get(0);// 待分析单词
 			if (firstWord.getValue().equals("#")// 正常结束
 					&& top.name.equals("#")) {
-				bf.append("\n");
+				bf.append("\r\n");
 				analyseStack.remove(0);
 				wordList.remove(0);
 
@@ -172,7 +174,7 @@ public class Parser {
 				graErrorFlag = true;
 				break;
 
-			} else if (AnalyzeNode.isTerm(top)) {// 终极符时的处理
+			} else if (AnalyzeNode.isTerm(top)) {// 终结符时的处理
 				termOP(top.name);
 			} else if (AnalyzeNode.isNonterm(top)) {
 				nonTermOP(top.name);
@@ -183,7 +185,6 @@ public class Parser {
 			bf.append("当前分析栈:");
 			for (int i = 0; i < analyseStack.size(); i++) {
 				bf.append(analyseStack.get(i).name);
-				// System.out.println(analyseStack.get(i).name);
 			}
 			bf.append("\t").append("余留符号串：");
 			for (int j = 0; j < wordList.size(); j++) {
@@ -255,6 +256,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case 'A':
 			if (firstWord.getValue().equals("int") || firstWord.getValue().equals("char")
 					|| firstWord.getValue().equals("bool")) {
@@ -265,7 +267,6 @@ public class Parser {
 				analyseStack.remove(0);
 				analyseStack.add(0, C);
 				analyseStack.add(1, A);
-
 			} else if (firstWord.getValue().equals("scanf")) {
 				analyseStack.remove(0);
 				analyseStack.add(0, C);
@@ -360,13 +361,14 @@ public class Parser {
 				analyseStack.remove(0);
 			}
 			break;
-		case 'C':
 
+		case 'C':
 			analyseStack.remove(0);
 			analyseStack.add(0, X);
 			analyseStack.add(1, B);
 			analyseStack.add(2, R);
 			break;
+
 		case 'X':
 			if (firstWord.getValue().equals("int") || firstWord.getValue().equals("char")
 					|| firstWord.getValue().equals("bool")) {
@@ -378,6 +380,7 @@ public class Parser {
 				analyseStack.remove(0);
 			}
 			break;
+
 		case 'Y':
 			if (firstWord.getValue().equals("int")) {
 				analyseStack.remove(0);
@@ -397,6 +400,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case 'Z':
 			if (firstWord.getType().equals(Word.IDENTIFIER)) {
 				analyseStack.remove(0);
@@ -411,6 +415,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case '1':// z'
 			if (firstWord.getValue().equals(",")) {
 				analyseStack.remove(0);
@@ -420,6 +425,7 @@ public class Parser {
 				analyseStack.remove(0);
 			}
 			break;
+
 		case 'U':
 			if (firstWord.getType().equals(Word.IDENTIFIER)) {
 				analyseStack.remove(0);
@@ -435,6 +441,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case '2':// U'
 			if (firstWord.getValue().equals("=")) {
 				analyseStack.remove(0);
@@ -445,6 +452,7 @@ public class Parser {
 				analyseStack.remove(0);
 			}
 			break;
+
 		case 'R':
 			if (firstWord.getType().equals(Word.IDENTIFIER)) {
 				analyseStack.remove(0);
@@ -458,6 +466,7 @@ public class Parser {
 				analyseStack.remove(0);
 			}
 			break;
+
 		case 'P':
 			if (firstWord.getType().equals(Word.IDENTIFIER)) {
 				analyseStack.remove(0);
@@ -477,6 +486,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case 'E':
 			if (firstWord.getType().equals(Word.IDENTIFIER)) {
 				analyseStack.remove(0);
@@ -499,6 +509,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case '3':// E'
 			if (firstWord.getValue().equals("&&")) {
 				analyseStack.remove(0);
@@ -508,6 +519,7 @@ public class Parser {
 				analyseStack.remove(0);
 			}
 			break;
+
 		case 'H':
 			if (firstWord.getType().equals(Word.IDENTIFIER)) {
 				analyseStack.remove(0);
@@ -530,6 +542,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case '4':// H'
 			if (firstWord.getValue().equals("||")) {
 				analyseStack.remove(0);
@@ -539,6 +552,7 @@ public class Parser {
 				analyseStack.remove(0);
 			}
 			break;
+
 		case 'D':
 			if (firstWord.getValue().equals("==")) {
 				analyseStack.remove(0);
@@ -566,6 +580,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case 'G':
 			if (firstWord.getType().equals(Word.IDENTIFIER)) {
 				analyseStack.remove(0);
@@ -597,6 +612,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case 'L':
 			if (firstWord.getType().equals(Word.IDENTIFIER)) {
 				analyseStack.remove(0);
@@ -622,6 +638,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case '5':// l'
 			if (firstWord.getValue().equals("+")) {
 				analyseStack.remove(0);
@@ -663,6 +680,7 @@ public class Parser {
 				graErrorFlag = true;
 			}
 			break;
+
 		case '6':// T'
 			if (firstWord.getValue().equals("*")) {
 				analyseStack.remove(0);
@@ -678,6 +696,7 @@ public class Parser {
 				analyseStack.remove(0);
 			}
 			break;
+
 		case 'F':
 			if (firstWord.getType().equals(Word.IDENTIFIER)) {
 				analyseStack.remove(0);
@@ -693,14 +712,10 @@ public class Parser {
 				analyseStack.add(2, new AnalyzeNode(AnalyzeNode.TERMINAL, ")", null));
 				analyseStack.add(3, TRAN_LF);
 			} else {
-				// errorCount++;
 				analyseStack.remove(0);
-				// wordList.remove(0);
-				// error=new Error(errorCount,"不能进行算术运算的数据类型",firstWord.line,firstWord);
-				// errorList.add(error);
-				// graErrorFlag=true;
 			}
 			break;
+
 		case 'O':
 			if (firstWord.getValue().equals("++")) {
 				analyseStack.remove(0);
@@ -710,11 +725,11 @@ public class Parser {
 				analyseStack.remove(0);
 				analyseStack.add(0, new AnalyzeNode(AnalyzeNode.ACTIONSIGN, "@SINGLE_OP", null));
 				analyseStack.add(1, new AnalyzeNode(AnalyzeNode.TERMINAL, "--", null));
-
 			} else {
 				analyseStack.remove(0);
 			}
 			break;
+
 		case 'Q':// Q
 			if (firstWord.getType().equals(Word.IDENTIFIER)) {
 				analyseStack.remove(0);
@@ -730,7 +745,7 @@ public class Parser {
 	}
 
 	/**
-	 * 
+	 * 对动作符号的处理
 	 */
 	private void actionSignOP() {
 		if (top.name.equals("@ADD_SUB")) {
@@ -738,7 +753,6 @@ public class Parser {
 				ARG2 = semanticStack.pop();
 				ARG1 = semanticStack.pop();
 				RES = newTemp();
-				// fourElemCount++;
 				FourElement fourElem = new FourElement(++fourElemCount, OP, ARG1, ARG2, RES);
 				fourElemList.add(fourElem);
 				L.value = RES;
@@ -773,7 +787,6 @@ public class Parser {
 			analyseStack.remove(0);
 		} else if (top.name.equals("@TRAN_LF")) {
 			F.value = L.value;
-			// semanticStack.push(F.value);
 			analyseStack.remove(0);
 		} else if (top.name.equals("@ASS_F")) {
 			F.value = firstWord.getValue();
@@ -795,7 +808,6 @@ public class Parser {
 			if (for_op.peek() != null) {
 				ARG1 = semanticStack.pop();
 				RES = ARG1;
-				// fourElemCount++;
 				FourElement fourElem = new FourElement(++fourElemCount, for_op.pop(), ARG1, "/", RES);
 				fourElemList.add(fourElem);
 			}
@@ -807,8 +819,6 @@ public class Parser {
 			OP = "=";
 			ARG1 = semanticStack.pop();
 			RES = semanticStack.pop();
-			;
-			// fourElemCount++;
 			FourElement fourElem = new FourElement(++fourElemCount, OP, ARG1, "/", RES);
 			fourElemList.add(fourElem);
 			OP = null;
@@ -817,8 +827,6 @@ public class Parser {
 			OP = "=";
 			ARG1 = semanticStack.pop();
 			RES = semanticStack.pop();
-			;
-			// fourElemCount++;
 			FourElement fourElem = new FourElement(++fourElemCount, OP, ARG1, "/", RES);
 			fourElemList.add(fourElem);
 			OP = null;
@@ -828,7 +836,6 @@ public class Parser {
 			OP = semanticStack.pop();
 			ARG1 = semanticStack.pop();
 			RES = newTemp();
-			// fourElemCount++;
 			FourElement fourElem = new FourElement(++fourElemCount, OP, ARG1, ARG2, RES);
 			fourElemList.add(fourElem);
 			G.value = RES;
@@ -914,12 +921,12 @@ public class Parser {
 	}
 
 	/**
+	 * 输出LL(1)分析步骤
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
 	public String outputLL1() throws IOException {
-		// grammerAnalyse();
 		File file = new File("./output/");
 		if (!file.exists()) {
 			file.mkdirs();
@@ -935,11 +942,11 @@ public class Parser {
 		if (graErrorFlag) {
 			Error error;
 			pw1.println("错误信息如下：");
-
 			pw1.println("错误序号\t错误信息\t错误所在行 \t错误单词");
 			for (int i = 0; i < errorList.size(); i++) {
 				error = errorList.get(i);
-				pw1.println(error.getId() + "\t" + error.getInfo() + "\t\t" + error.getLine() + "\t" + error.getWord().getValue());
+				pw1.println(error.getId() + "\t" + error.getInfo() + "\t\t" + error.getLine() + "\t"
+						+ error.getWord().getValue());
 			}
 		} else {
 			pw1.println("语法分析通过：");
@@ -949,6 +956,7 @@ public class Parser {
 	}
 
 	/**
+	 * 输出中间代码四元式
 	 * 
 	 * @return
 	 * @throws IOException
@@ -969,10 +977,10 @@ public class Parser {
 		FourElement temp;
 		for (int i = 0; i < fourElemList.size(); i++) {
 			temp = fourElemList.get(i);
-			pw1.println(temp.getId() + "(" + temp.getOp() + "," + temp.getArg1() + "," + temp.getArg2() + "," + temp.getResult() + ")");
+			pw1.println(temp.getId() + "(" + temp.getOp() + "," + temp.getArg1() + "," + temp.getArg2() + ","
+					+ temp.getResult() + ")");
 		}
 		pw1.close();
-
 		return path + "/FourElement.txt";
 	}
 

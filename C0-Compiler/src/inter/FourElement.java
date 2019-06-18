@@ -2,6 +2,7 @@ package inter;
 
 /**
  * 四元式
+ * 
  * @author Hu Yuxi
  *
  */
@@ -21,11 +22,17 @@ public class FourElement {
 
 	/**
 	 * 四元式有参构造函数
-	 * @param id 四元式序号
-	 * @param op 操作符
-	 * @param arg1 操作数1
-	 * @param arg2 操作数2
-	 * @param result 结果
+	 * 
+	 * @param id
+	 *            四元式序号
+	 * @param op
+	 *            操作符
+	 * @param arg1
+	 *            操作数1
+	 * @param arg2
+	 *            操作数2
+	 * @param result
+	 *            结果
 	 */
 	public FourElement(int id, String op, String arg1, String arg2, String result) {
 		this.setId(id);
@@ -101,6 +108,7 @@ public class FourElement {
 
 	/**
 	 * setOp
+	 * 
 	 * @param op
 	 */
 	public void setOp(String op) {

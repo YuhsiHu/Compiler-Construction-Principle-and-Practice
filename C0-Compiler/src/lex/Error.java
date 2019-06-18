@@ -2,6 +2,7 @@ package lex;
 
 /**
  * 语法分析报错信息类
+ * 
  * @author Hu Yuxi
  *
  */

@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import lex.Word;
 
 /**
- * 分析栈节点类 
- * String type;//节点类型 
- * String name;//节点名 
- * Object value;//节点值
+ * 分析栈节点类 String type;//节点类型 String name;//节点名 Object value;//节点值
  */
 public class AnalyzeNode {
 	public final static String NONTERMINAL = "非终结符";
@@ -82,6 +79,7 @@ public class AnalyzeNode {
 
 	/**
 	 * 判断是不是非终结符
+	 * 
 	 * @param node
 	 * @return
 	 */
@@ -91,6 +89,7 @@ public class AnalyzeNode {
 
 	/**
 	 * 判断是不是终结符
+	 * 
 	 * @param node
 	 * @return
 	 */
@@ -101,8 +100,9 @@ public class AnalyzeNode {
 
 	/**
 	 * 判断是不是动作符
+	 * 
 	 * @param node
-	 * @return 
+	 * @return
 	 */
 	public static boolean isActionSign(AnalyzeNode node) {
 		return actionSign.contains(node.name);
@@ -117,9 +117,13 @@ public class AnalyzeNode {
 
 	/**
 	 * 有参构造函数
-	 * @param type 类型
-	 * @param name 名字
-	 * @param value 值
+	 * 
+	 * @param type
+	 *            类型
+	 * @param name
+	 *            名字
+	 * @param value
+	 *            值
 	 */
 	public AnalyzeNode(String type, String name, String value) {
 		this.type = type;

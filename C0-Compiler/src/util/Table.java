@@ -111,7 +111,6 @@ public class Table {
 	String[] PRO_D_eq = { "==" };
 	String[] PRO_D_ueq = { "!=" };
 	String[] PRO_B = { "if", "(", "E", ")", "{", "A", "}" };
-
 	String[] PRO_P = { "void", "main", "(", ")", "{", "A", "}" };
 
 }

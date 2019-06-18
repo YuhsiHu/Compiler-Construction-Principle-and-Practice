@@ -2,15 +2,10 @@ package lex;
 
 import java.util.ArrayList;
 
-
 /**
  * 单词类
  * 
- *  1单词序号 
- *  2单词的值 
- *  3单词类型 
- *  4单词所在行 
- *  5单词是否合法
+ * 1单词序号 2单词的值 3单词类型 4单词所在行 5单词是否合法
  */
 public class Word {
 	public final static String KEY = "关键字";
@@ -22,13 +17,13 @@ public class Word {
 	public final static String BOUNDARYSIGN = "界符";
 	public final static String END = "结束符";
 	public final static String UNIDEF = "未知类型";
-	
+
 	public static ArrayList<String> key = new ArrayList<String>();// 关键字集合
 	public static ArrayList<String> boundarySign = new ArrayList<String>();// 界符集合
 	public static ArrayList<String> operator = new ArrayList<String>();// 运算符集合
-	
+
 	static {
-		//运算符集合
+		// 运算符集合
 		Word.operator.add("+");
 		Word.operator.add("-");
 		Word.operator.add("++");
@@ -49,14 +44,14 @@ public class Word {
 		Word.operator.add("?");
 		Word.operator.add("|");
 		Word.operator.add("&");
-		//界符集合
+		// 界符集合
 		Word.boundarySign.add("(");
 		Word.boundarySign.add(")");
 		Word.boundarySign.add("{");
 		Word.boundarySign.add("}");
 		Word.boundarySign.add(";");
 		Word.boundarySign.add(",");
-		//关键字集合
+		// 关键字集合
 		Word.key.add("void");
 		Word.key.add("main");
 		Word.key.add("int");
@@ -68,12 +63,12 @@ public class Word {
 		Word.key.add("printf");
 		Word.key.add("scanf");
 	}
-	
+
 	int id;// 单词序号
 	private String value;// 单词的值
 	private String type;// 单词类型
 	public int line;// 单词所在行
-	boolean flag = true;//单词是否合法
+	boolean flag = true;// 单词是否合法
 
 	/**
 	 * 无参构造函数
@@ -84,10 +79,14 @@ public class Word {
 
 	/**
 	 * 
-	 * @param id 序号
-	 * @param value 值
-	 * @param type 类型
-	 * @param line 行号
+	 * @param id
+	 *            序号
+	 * @param value
+	 *            值
+	 * @param type
+	 *            类型
+	 * @param line
+	 *            行号
 	 */
 	public Word(int id, String value, String type, int line) {
 		this.id = id;
@@ -98,7 +97,8 @@ public class Word {
 
 	/**
 	 * 
-	 * @param word 单词
+	 * @param word
+	 *            单词
 	 * @return 是否为关键字
 	 */
 	public static boolean isKey(String word) {
@@ -107,7 +107,8 @@ public class Word {
 
 	/**
 	 * 
-	 * @param word 单词
+	 * @param word
+	 *            单词
 	 * @return 是否为运算符
 	 */
 	public static boolean isOperator(String word) {
@@ -116,7 +117,8 @@ public class Word {
 
 	/**
 	 * 
-	 * @param word 单词
+	 * @param word
+	 *            单词
 	 * @return 是否为界符
 	 */
 	public static boolean isBoundarySign(String word) {
@@ -125,7 +127,8 @@ public class Word {
 
 	/**
 	 * 
-	 * @param word 单词
+	 * @param word
+	 *            单词
 	 * @return 是否为算术运算符
 	 */
 	public static boolean isArOP(String word) {
@@ -137,11 +140,13 @@ public class Word {
 
 	/**
 	 * 
-	 * @param word 单词
+	 * @param word
+	 *            单词
 	 * @return 是否为布尔运算符
 	 */
 	public static boolean isBoolOP(String word) {
-		if ((word.equals(">") || word.equals("<") || word.equals("==")|| word.equals("!=") || word.equals("!") || word.equals("&&") || word.equals("||")))
+		if ((word.equals(">") || word.equals("<") || word.equals("==") || word.equals("!=") || word.equals("!")
+				|| word.equals("&&") || word.equals("||")))
 			return true;
 		else
 			return false;
@@ -149,6 +154,7 @@ public class Word {
 
 	/**
 	 * getValue
+	 * 
 	 * @return
 	 */
 	public String getValue() {
@@ -171,12 +177,13 @@ public class Word {
 
 	/**
 	 * setType
+	 * 
 	 * @param type
 	 */
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	/*
 	 * getLine
 	 */
