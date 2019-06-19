@@ -24,7 +24,7 @@ import inter.FourElement;
 public class Parser {
 
 	private LexAnalyse lexAnalyse;// 词法分析器
-	ArrayList<Word> wordList = new ArrayList<Word>();// 单词表
+	ArrayList<Word> wordList = new ArrayList<Word>();// 单词列表
 	Stack<AnalyzeNode> analyseStack = new Stack<AnalyzeNode>();// 分析栈
 	Stack<String> semanticStack = new Stack<String>();// 语义栈
 	ArrayList<FourElement> fourElemList = new ArrayList<FourElement>();// 四元式列表
@@ -154,6 +154,7 @@ public class Parser {
 		analyseStack.add(0, S);
 		analyseStack.add(1, new AnalyzeNode(AnalyzeNode.END, "#", null));
 		semanticStack.add("#");
+		
 		while (!analyseStack.empty() && !wordList.isEmpty()) {
 			bf.append("\r\n");
 			bf.append("步骤" + gcount + "\t");
@@ -161,6 +162,7 @@ public class Parser {
 				graErrorFlag = true;
 				break;
 			}
+			
 			top = analyseStack.get(0);// 当前栈顶元素
 			firstWord = wordList.get(0);// 待分析单词
 			if (firstWord.getValue().equals("#")// 正常结束
@@ -168,20 +170,19 @@ public class Parser {
 				bf.append("\r\n");
 				analyseStack.remove(0);
 				wordList.remove(0);
-
 			} else if (top.name.equals("#")) {
 				analyseStack.remove(0);
 				graErrorFlag = true;
 				break;
-
 			} else if (AnalyzeNode.isTerm(top)) {// 终结符时的处理
 				termOP(top.name);
-			} else if (AnalyzeNode.isNonterm(top)) {
+			} else if (AnalyzeNode.isNonterm(top)) {//非终结符时的处理
 				nonTermOP(top.name);
 			} else if (top.type.equals(AnalyzeNode.ACTIONSIGN)) {// 栈顶是动作符号时的处理
 				actionSignOP();
 			}
 
+			//打印当前步骤信息
 			bf.append("当前分析栈:");
 			for (int i = 0; i < analyseStack.size(); i++) {
 				bf.append(analyseStack.get(i).name);
@@ -198,10 +199,11 @@ public class Parser {
 	}
 
 	/**
-	 * 
+	 * 当前单词是终结符
 	 * @param term
 	 */
 	private void termOP(String term) {
+		//如果是单词类型标记为“整型常量”“字符常量”“标识符”或节点名就等于单词名
 		if (firstWord.getType().equals(Word.INT_CONST) || firstWord.getType().equals(Word.CHAR_CONST)
 				|| term.equals(firstWord.getValue())
 				|| (term.equals("id") && firstWord.getType().equals(Word.IDENTIFIER))) {
@@ -219,7 +221,7 @@ public class Parser {
 	}
 
 	/**
-	 * 
+	 * 当前单词是非终结符
 	 * @param nonTerm
 	 */
 	private void nonTermOP(String nonTerm) {
@@ -235,7 +237,7 @@ public class Parser {
 			nonTerm = "5";
 		if (nonTerm.equals("T'"))
 			nonTerm = "6";
-		switch (nonTerm.charAt(0)) {// 栈顶为非终结符处理
+		switch (nonTerm.charAt(0)) {// 栈顶为非终结符的处理
 		// N:S,B,A,C,,X,R,Z,Z’,U,U’,E,E’,H,H’,G,M,D,L,L’,T,T’,F,O,P,Q
 		case 'S':
 			if (firstWord.getValue().equals("void")) {
