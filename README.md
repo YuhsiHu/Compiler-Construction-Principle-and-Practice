@@ -9,6 +9,9 @@ Exercises about Compiler Construction in NPU and a simplified C compiler.
 ## Exercise 2 语法分析程序(Gramma Analysis) 
 具体要求及分析见[Gramma Analysis](https://github.com/YuhsiHu/Compiler-Construction-Principle-and-Practice/tree/master/Gramma%20Analysis)
 
+## 期末复习提纲（Outline）
+根据课堂PPT顺序和考点整理。[点击前往](https://github.com/YuhsiHu/Compiler-Construction-Principle-and-Practice/blob/master/Review%20Outline.md)
+
 ## C语言子集编译器(Simplified C compiler) 
 小型C语言编译器，文法是C语言的子集，能将C语言编译为汇编语言，并且将词法分析结果、语法分析步骤、中间代码和汇编语言分别输出到txt文档中。
 
