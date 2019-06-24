@@ -683,16 +683,197 @@ t4 = &a + t3
 自学内容。
 
 ### 6.4 控制语句和逻辑表达式的代码生成
+
 #### 6.4.1 if和while语句的代码生成
+if语句生成的中间代码流程图：
+![if语句生成的中间代码流程图.png](/storage/if语句生成的中间代码流程图.png)
+```Java
+if-stmt->if(E) S1
+         if (E) S1 else S2
+//if语句生成下面的代码模式
+<code to evaluate E to t1>//求逻辑表达式E的值的三地址码序列
+if_false  t1  goto L1
+  <code for S1> //  true情况下执行的三地址码序列
+  goto L2
+label L1
+  <code for S2>   // false情况下执行的三地址码序列
+label L2   // if语句后的代码
+```
+while语句生成的中间代码流程图:  
+![while语句生成的中间代码流程图.png](/storage/while语句生成的中间代码流程图.png)
+```Java
+while-stmt→while (E) S 
+//while语句生成下面的代码模式：
+ label L1
+      <code to evaluate E to t1> //求逻辑表达式E的值的三地址码序列
+      if_false  t1  goto L2
+      <code for S>  // while循环体的代码执行序列
+      goto L1
+  label L2// While语句后的代码
+```
 #### 6.4.2 逻辑表达式的代码生成（自学内容）
+
 #### 6.4.3 if和while语句的代码生成过程举例
+例如语句
+```Java
+if (true)
+  while (true)
+    if (false) 
+  break 
+else other
+```
+有如下的语法树：  
+![ifwhile代码生成.png](/storage/ifwhile代码生成.png)  
+```Java
+void genCode(SyntaxTree  t)
+{ char * lab1,*lab2;
+  if(t!=NULL)
+  switch(t->kind){
+     case ExpKind:
+       t->strval=newtemp();
+       if(t->val==0) 
+ 	      emit(t->strval“=false” ); 
+       else 
+	      emit(t->strval“=true”);
+      break;
 
+     case IfKind:
+       genCode(t->child[0]);
+       lab1=genLabel();
+       emit(“if_false” t->child[0]->strval “goto” lab1)
+       genCode(t->child[1]);
+       if(t->child[2]!=NULL){    lab2=genLabel();
+         emit(“goto” lab2);
+       } 
+       emit(“label” lab1); 
+       if(t->child[2]!=NULL){
+          genCode(t->child[2]);
+          emit(“label” lab2);
+         } 
+      break;  
 
+      case WhileKind:
+        lab1=genLabel();
+        emit (“label” lab1);
+        genCode(t->child[0]);
+        Lab2=genLabel();
+        emit(“if_false” t->child[0]->strval “goto” lab2)
+        genCode(t->child[1]);
+        emit(“goto” lab1);
+        emit(“label” lab2);
+      break;
+
+     case BreakKind: 
+       emit(“goto”  ?????);
+     break;
+
+     case OtherKind: 
+       emit(“Other”);
+     break;
+
+     default: 
+       emit(“Error”);
+     break;
+ }
+}
+```
 ### 6.5 过程和函数调用的代码生成
+#### 6.5.1 过程和函数的中间代码
+函数定义的中间代码必须包括一条标志开始的指令，称函数代码的入口点(entry point)，一条标志结束的指令，称为函数返回点(return point)，翻译模式如下：
+```
+Entry instruction
+  <code for the function body>
+Return instruction
+```
+例如，考虑C函数定义
+```C
+int f(int x, int y){
+   return x + y + 1;
+   }
+```
+翻译成如下的三地址码：
+```C
+entry f
+t1=x+y
+t2=t1+1
+return t2
+```
+
+函数调用首先产生参数的实际值，然后转去执行函数代码。函数调用的中间代码必须有一条指令指示参数计算的开始(为调用而准备的)，然后实际调用指令指示已经构成了参数，到函数代码的实际转移可以发生了，翻译模式如下：
+```
+Begin-argument-computation instruction
+  <code to compute the arguments>
+Call instruction
+```
+例如，假如上例中的函数f已经在C中定义，调用
+f( 2+3, 4)翻译成三地址码如下：
+```C
+begin_args
+t1=2+3
+arg t1
+arg 4
+call f
+```
+函数调用引入3个不同的三地址指令：
+* 一个标志参数计算的起点，引入begin_args
+* 一个被用于重复说明参数值名字的指令arg
+* 调用指令，简单写成call
+
+#### 6.5.2 函数定义和调用的代码生成过程（自学内容）
 
 ## 7.运行时环境（考点为7.1和7.3）
 <span id="7"></span>
 --------------------------------------------------------
+### 7.1 程序执行时的存储器组织
+目标代码运行时,操作系统为目标代码的运行分配的存储空间按用途可划分为下面几个部分:  
+![存储空间.png](/storage/存储空间.png)  
+* **代码区域**：目标代码的存储区域。 
+* **全程/静态区域**：静态数据区用来存放那些具有绝对地址的数据和变量(如静态变量和全程变量)；编译器可以确定其所占用存储空间的大小，初始化的全局变量和静态变量在一块区域，未初始化的全局变量和未初始化的静态变量在相邻的另一块区域，程序执行结束后由系统释放。
+* **栈区**：函数中的形参和在函数中定义的局部变量以及局部临时变量，这些变量分配在栈区，每次函数执行的时候会在栈中为函数的执行分配相应的存储区，而在函数执行完毕后，释放相应的存储区。
+* **堆区**：供用户动态申请存储空间，编译器“不需要”知道究竟得从heap中分配多少空间，也不需要知道从heap上分配的空间究竟需要存在多久。
 
 
+* **过程的活动记录**(activation record,AR)是一段连续的存储区，用于存放函数的一次执行所需要的信息，当调用或激活函数时，必须为被调用函数的活动记录分配空间。  
+![活动记录.png](/storage/活动记录.png)
 
+### 7.2 完全静态的运行时环境
+在完全静态环境中，不仅全局变量，所有的变量都是静态分配，即整个程序所需数据空间的总量在编译时是完全确定的，从而每个数据名的地址就可静态地进行分配，适于静态分配的语言，要求满足的条件是：
+* 每个数据名所需的存储空间的大小都是常量
+* 不允许采用动态的数据结构，即在程序运行过程中申请或释放的数据结构
+* 过程不可递归调用
+
+### 7.3 基于栈的运行时环境
+在一个所有函数都是全局的、函数定义不允许嵌套，但允许函数递归调用的程序设计语言(例如C语言)中，基于栈的动态运行时环境有两个指针：
+* **sp:栈顶部(top of stack)指针**；对于x86系统来说，它采用sp或esp寄存器存储栈顶部的地址。注：用它只可访问栈顶。**使用esp寄存器**。
+* **fp(frame point)：控制链指针**，即存储当前活动记录的控制链（即一个地址），对于x86系统，它采用**ebp寄存器**存储当前活动记录的控制链，其作用如下：
+  * 1.通过该指针可以访问主调函数的活动记录；即允许在当前的被调函数执行完毕时，用它来恢复主调函数的活动记录。
+  * 2.通过该指针可以访问当前执行函数的实参和局部变量。
+
+* 当一个函数被调用时，在栈顶为该函数分配所需的数据空间(过程活动记录)如下：
+  1. 将实参的值压入在该函数对应的新活动记录中。
+  2. 将被调函数执行完毕后的返回地址压入在新的活动记录中。
+  3. 完成到被调用的过程代码一个转移。
+  4. 将主调函数的fp作为控制链压入到新的活动记录中。
+  5. 改变fp以使其指向新的活动记录(将sp复制到fp中)
+  6. 将该函数的局部变量和局部临时变量压入到新的活动记录中。
+
+* 当被调函数执行完毕返回时，其对应的活动记录从栈中弹出的过程：
+  1. 将fp复制到sp中。
+  2. 将控制链装载到fp中。
+  3. 完成到返回地址主调函数的一个转移。
+  4. 改变sp以弹出实参。
+
+例题：  
+![基于栈的运行时环境例题1.png](/storage/基于栈的运行时环境例题1.png)
+![基于栈的运行时环境例题2.png](/storage/基于栈的运行时环境例题2.png)
+![基于栈的运行时环境例题3.png](/storage/基于栈的运行时环境例题3.png)
+![基于栈的运行时环境例题4.png](/storage/基于栈的运行时环境例题4.png)
+
+处理可变长度的问题
+```C 
+printf(“%d %d %d”,  3, 4, 50);
+``` 
+ 1. 设置一指针ap；
+ 2. 让ap指向第一个可变参数(地址为ebp+控制链所占的空间+返回地址所占的空间+固定参数所占的空间)，即3所在的空间；
+ 3. 返回3，ap的值加4即指向4所在的存储空间……,通过指针ap的移动读取所有的可变参数，根据固定参数“%d %d %d”，该字符串中每出现一个“%d”就执行一次；固定参数指出了后面的可变参数的个数；
+ 4. 清除变量ap。
