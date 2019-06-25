@@ -335,7 +335,7 @@ LL (1)分析方法如下：
 ![求First集合问题](/storage/求First集合问题.png)  
 
 答案：   
-![求First集合问题](/storage/求First集合问题.png)   
+![求First集合答案](/storage/求First集合答案.png)   
 
 2. **求Follow集合**
    1. 若A是开始符号,则Follow(A)包含$
@@ -440,7 +440,7 @@ J是I识别输入符号x后所到达的项目集， J= {A → αx.β | A → α.
   1. 设状态i、j，若有GO(i，x)=j ，对于状态i中的项目A → α.xβ,
     * 若x ∈ VT，则置Action[i,x]=Sj
     * 若x ∈ VN，则置Action[i,x]=j
-  2. 对于终态i中的项目A. ，若A 是G中第k个产生式，则对所有输入符号xVT(包括$), 均置Action[i,x]=rk ;
+  2. 对于终态i中的项目A → α. ，若A → α 是G中第k个产生式，则对所有输入符号x ∈ VT(包括$), 均置Action[i,x]=rk ;
   3. 若终态i中含项目S’ → S. 则置Action[i,$]=acc ($表示输入串结束符);
   4. 其它情况均置错。
 
@@ -474,12 +474,12 @@ J是I识别输入符号x后所到达的项目集， J= {A → αx.β | A → α.
   4. 其他情况置错。
 
 例题：  
-![SLR(1)1.png](/storage/SLR(1).png)  
-![SLR(1)2.png](/storage/SLR(2).png)   
+![SLR(1)1.png](/storage/SLR(1)1.png)  
+![SLR(1)2.png](/storage/SLR(1)2.png)   
 答案：   
-![SLR(1)3.png](/storage/SLR(3).png)  
-![SLR(1)4.png](/storage/SLR(4).png)  
-![SLR(1)5.png](/storage/SLR(5).png)    
+![SLR(1)3.png](/storage/SLR(1)3.png)  
+![SLR(1)4.png](/storage/SLR(1)4.png)  
+![SLR(1)5.png](/storage/SLR(1)5.png)    
 
 ### 4.5 一般的LR(1)
  LR(1)项目：在LR(0)项目中放置一个向右搜索符号a，成为LR(1)项目：[A → α.β ，a]。
@@ -742,7 +742,8 @@ void genCode(SyntaxTree  t)
        lab1=genLabel();
        emit(“if_false” t->child[0]->strval “goto” lab1)
        genCode(t->child[1]);
-       if(t->child[2]!=NULL){    lab2=genLabel();
+       if(t->child[2]!=NULL){    
+         lab2=genLabel();
          emit(“goto” lab2);
        } 
        emit(“label” lab1); 
