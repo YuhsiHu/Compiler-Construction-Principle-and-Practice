@@ -618,7 +618,8 @@ Void genCode(SyntaxTree t){
             //看是什么操作
             case Plus://加法
             genCode(t -> lchild);
-            genCode(t -> rchild);temp=newtemp();
+            genCode(t -> rchild);
+            temp=newtemp();
             emit(temp’=’ t -> lchild -> strval’+’t -> rchild -> strval)
             t -> strval=temp;
             break;
